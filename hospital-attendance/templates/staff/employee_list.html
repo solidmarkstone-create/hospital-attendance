@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Сотрудники{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <h4 class="mb-0">Сотрудники</h4>
+  {% if can_edit %}<a class="btn btn-primary btn-sm" href="{% url 'employee_new' %}">Добавить сотрудника</a>{% endif %}
+</div>
+<form class="row g-2 mb-3">
+  <div class="col-md-3"><input class="form-control form-control-sm" name="q" value="{{ q }}" placeholder="Фамилия или табельный номер"></div>
+  <div class="col-md-3"><select class="form-select form-select-sm" name="dep"><option value="">Все подразделения</option>
+    {% for d in departments %}<option value="{{ d.pk }}" {% if dep == d.pk|stringformat:"s" %}selected{% endif %}>{{ d }}</option>{% endfor %}</select></div>
+  <div class="col-md-2"><button class="btn btn-sm btn-outline-secondary">Найти</button></div>
+</form>
+<table class="table table-sm table-hover bg-white">
+<thead><tr><th>Таб. №</th><th>ФИО</th><th>Подразделение</th><th>Должность</th><th>Согласие на биометрию</th><th>Эталон лица</th></tr></thead>
+<tbody>{% for e in employees %}
+<tr><td>{{ e.personnel_number }}</td>
+<td>{% if can_edit %}<a href="{% url 'employee_detail' e.pk %}">{{ e.full_name }}</a>{% else %}{{ e.full_name }}{% endif %}</td>
+<td>{{ e.department }}</td><td>{{ e.position }}</td>
+<td>{% if e.consent == 'given' %}<span class="badge bg-success">{{ e.get_consent_display }}</span>{% else %}<span class="badge bg-secondary">{{ e.get_consent_display }}</span>{% endif %}</td>
+<td>{% if e.n_templates %}есть{% else %}<span class="text-muted">нет</span>{% endif %}</td></tr>
+{% endfor %}</tbody></table>
+{% endblock %}

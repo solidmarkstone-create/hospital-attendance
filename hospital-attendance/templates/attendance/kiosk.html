@@ -1,0 +1,20 @@
+{% load static %}<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Терминал отметки</title>
+<link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}"><link rel="stylesheet" href="{% static 'css/app.css' %}"></head>
+<body class="kiosk"><div class="container text-center pt-4">
+ <h2 class="mb-1">Отметка прихода и ухода</h2>
+ <p class="text-white-50" id="clock"></p>
+ <video id="video" autoplay playsinline muted></video>
+ <div class="mt-3"><button id="go" class="btn btn-lg btn-light px-5 py-3 fs-3">Отметиться</button></div>
+ <div class="result mt-3" id="result">Подойдите к камере, снимите очки и нажмите «Отметиться».</div>
+ <div class="mt-2"><a href="#" id="fb" class="link-light small">Отметиться без биометрии (табельный номер и PIN)</a></div>
+ <form id="fbform" class="row g-2 justify-content-center mt-2" style="display:none">
+  <div class="col-auto"><input name="personnel_number" class="form-control" placeholder="Табельный номер" autocomplete="off"></div>
+  <div class="col-auto"><input name="pin" type="password" class="form-control" placeholder="PIN" autocomplete="off"></div>
+  <div class="col-auto"><button class="btn btn-warning">Отметиться</button></div>
+ </form>
+ <p class="text-white-50 small mt-4">Изображение с камеры обрабатывается только для отметки и не сохраняется. Камера установлена на служебном входе, пациенты в кадр не попадают.</p>
+</div>
+<script src="{% static 'js/kiosk.js' %}"></script>
+</body></html>

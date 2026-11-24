@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Журнал аудита{% endblock %}
+{% block content %}
+<h4>Журнал аудита</h4>
+<p class="text-muted small">Действия с персональными и биометрическими данными. Записи нельзя изменить или удалить.</p>
+<table class="table table-sm bg-white">
+<thead><tr><th>Время</th><th>Пользователь</th><th>Действие</th><th>Объект</th><th>Подробности</th><th>IP</th></tr></thead>
+<tbody>{% for a in items %}<tr><td>{{ a.created_at|date:"d.m.Y H:i" }}</td><td>{{ a.user|default:"—" }}</td><td>{{ a.get_action_display }}</td><td>{{ a.object_repr }}</td><td>{{ a.details }}</td><td>{{ a.ip|default:"" }}</td></tr>{% endfor %}</tbody>
+</table>
+{% endblock %}

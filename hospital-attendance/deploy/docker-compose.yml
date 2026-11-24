@@ -1,0 +1,30 @@
+# Развертывание в локальной сети больницы: PostgreSQL + приложение + nginx с TLS.
+services:
+  db:
+    image: postgres:16
+    restart: always
+    env_file: ../.env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes: [pgdata:/var/lib/postgresql/data]
+  web:
+    build: {context: .., dockerfile: deploy/Dockerfile}
+    restart: always
+    env_file: ../.env
+    environment:
+      POSTGRES_HOST: db
+      FACE_MODELS_DIR: /models
+    volumes: [../models:/models:ro]
+    depends_on: [db]
+  nginx:
+    image: nginx:1.27
+    restart: always
+    ports: ["443:443"]
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on: [web]
+volumes:
+  pgdata:

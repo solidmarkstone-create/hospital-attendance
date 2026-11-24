@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Мои отметки{% endblock %}
+{% block content %}
+<h4>Мои отметки: {{ employee.full_name }}</h4>
+<form class="row g-2 mb-2"><div class="col-md-2"><input type="month" name="month" value="{{ month }}" class="form-control form-control-sm"></div><div class="col-md-2"><button class="btn btn-sm btn-outline-secondary">Показать</button></div></form>
+<p>Отработано дней: {{ row.worked_days }}, часов: {{ row.total_hours|floatformat:"-1" }}, опозданий: {{ row.late_count }}. Если отметка неверна, обратитесь к руководителю отделения.</p>
+<table class="table table-sm bg-white"><thead><tr><th>Время</th><th>Направление</th><th>Способ</th><th>Точка прохода</th><th>Статус</th></tr></thead><tbody>
+{% for e in events %}<tr><td>{{ e.timestamp|date:"d.m.Y H:i" }}</td><td>{{ e.get_direction_display }}</td><td>{{ e.get_method_display }}</td><td>{{ e.point|default:"—" }}</td><td>{{ e.get_status_display }}</td></tr>{% endfor %}
+</tbody></table>
+{% endblock %}

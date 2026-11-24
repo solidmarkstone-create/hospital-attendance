@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Табель{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between"><h4>Табель учета рабочего времени: {{ dep }}</h4>
+<a class="btn btn-sm btn-outline-primary" href="?month={{ month }}&dep={{ dep.pk }}&format=csv">Выгрузить для бухгалтерии (CSV)</a></div>
+{% include 'attendance/_filter.html' %}
+<p class="small text-muted">Я – явка (часы), Я* – нет отметки ухода, НН – неявка в смену по графику, В – выходной, серым – смена по графику, которая еще не наступила. Красным – опоздание больше 5 минут.</p>
+<div class="table-responsive"><table class="table table-bordered bg-white ts">
+<thead><tr><th>Сотрудник</th>{% for d in days %}<th>{{ d.day }}</th>{% endfor %}<th>Дней</th><th>Часов</th><th>НН</th><th>Опозд.</th></tr></thead>
+<tbody>{% for r in rows %}<tr><td class="name">{{ r.employee.short_name }}<br><span class="text-muted">{{ r.employee.position }}</span></td>
+{% for c in r.days %}<td class="code-{{ c.code }}{% if c.late_min %} late{% endif %}" title="{% if c.shift %}смена {{ c.shift }}{% endif %}{% if c.late_min %}, опоздание {{ c.late_min }} мин{% endif %}">{% if c.code %}{{ c.code }}{% elif c.shift %}<span class="text-muted">{{ c.shift }}</span>{% endif %}{% if c.hours %}<br>{{ c.hours|floatformat:"-1" }}{% endif %}</td>{% endfor %}
+<td>{{ r.worked_days }}</td><td>{{ r.total_hours|floatformat:"-1" }}</td><td>{{ r.absences }}</td><td>{{ r.late_count }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endblock %}

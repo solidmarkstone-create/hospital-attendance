@@ -1,0 +1,9 @@
+.env
+*.sqlite3
+__pycache__/
+*.pyc
+staticfiles/
+models/
+eval/cache/
+.coverage
+htmlcov/

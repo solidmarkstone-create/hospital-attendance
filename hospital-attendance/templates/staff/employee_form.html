@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Карточка сотрудника{% endblock %}
+{% block content %}
+<h4>{% if employee %}{{ employee.full_name }}{% else %}Новый сотрудник{% endif %}</h4>
+<form method="post" class="col-md-6 bg-white p-3 rounded">{% csrf_token %}
+  {% for f in form %}<div class="mb-2"><label class="form-label">{{ f.label }}</label>{{ f }}{% for e in f.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>{% endfor %}
+  <button class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}
+{% block scripts %}<script>document.querySelectorAll('form input:not([type=checkbox]), form select').forEach(e=>e.classList.add('form-control'))</script>{% endblock %}

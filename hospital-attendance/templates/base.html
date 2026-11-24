@@ -1,0 +1,47 @@
+{% load static %}<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Учет посещаемости{% endblock %} – АГБ</title>
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+{% if user.is_authenticated %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-hospital mb-3">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'dashboard' %}">Учет посещаемости персонала</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto">
+        {% if can_view_reports %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Сводка</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'journal' %}">Журнал</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'timesheet' %}">Табель</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'lateness' %}">Нарушения</a></li>
+        {% endif %}
+        {% if can_review %}<li class="nav-item"><a class="nav-link" href="{% url 'review_queue' %}">Проверка отметок</a></li>{% endif %}
+        {% if can_view_reports %}<li class="nav-item"><a class="nav-link" href="{% url 'employee_list' %}">Сотрудники</a></li>{% endif %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'my_attendance' %}">Мои отметки</a></li>
+        {% if can_configure %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'audit_log' %}">Аудит</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Настройки</a></li>
+        {% endif %}
+      </ul>
+      <span class="navbar-text me-3 small">{{ user.get_full_name|default:user.username }}{% if role_names %} · {{ role_names|join:", " }}{% endif %}</span>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-light">Выйти</button></form>
+    </div>
+  </div>
+</nav>
+{% endif %}
+<main class="container-fluid px-4">
+  {% for m in messages %}
+  <div class="alert alert-{% if m.tags == 'error' %}danger{% else %}{{ m.tags }}{% endif %} py-2">{{ m }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</main>
+<script src="{% static 'vendor/bootstrap.bundle.min.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

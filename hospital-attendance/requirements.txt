@@ -1,0 +1,11 @@
+Django==5.1.15
+psycopg[binary]==3.3.9
+gunicorn==27.0.1
+whitenoise==6.12.0
+cryptography==50.0.2
+numpy==2.5.5
+opencv-python-headless==5.1.0.95
+onnxruntime==1.32.0
+insightface==2.1
+scikit-image==0.26.0
+openpyxl==3.1.5

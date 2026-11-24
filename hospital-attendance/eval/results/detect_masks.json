@@ -1,0 +1,30 @@
+{
+ "images": 499,
+ "detectors": {
+  "SCRFD-10G (buffalo_l)": {
+   "plain": 1.0,
+   "mask": 1.0,
+   "seconds": 304
+  },
+  "SCRFD-0.5G (buffalo_s)": {
+   "plain": 0.9979959919839679,
+   "mask": 0.9859719438877755,
+   "seconds": 34
+  },
+  "RetinaFace ResNet-34": {
+   "plain": 0.9959919839679359,
+   "mask": 1.0,
+   "seconds": 489
+  },
+  "RetinaFace MobileNetV2": {
+   "plain": 0.9959919839679359,
+   "mask": 1.0,
+   "seconds": 111
+  },
+  "RetinaFace MobileNet-0.25": {
+   "plain": 0.9979959919839679,
+   "mask": 1.0,
+   "seconds": 34
+  }
+ }
+}

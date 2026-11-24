@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Ручная отметка{% endblock %}
+{% block content %}
+<h4>Ручная отметка</h4>
+<form method="post" class="col-md-5 bg-white p-3 rounded">{% csrf_token %}
+ <div class="mb-2"><label class="form-label">Сотрудник</label><select name="employee" class="form-select" required>{% for e in employees %}<option value="{{ e.pk }}">{{ e.full_name }} ({{ e.department }})</option>{% endfor %}</select></div>
+ <div class="mb-2"><label class="form-label">Дата и время</label><input type="datetime-local" name="when" class="form-control" required></div>
+ <div class="mb-2"><label class="form-label">Направление</label><select name="direction" class="form-select"><option value="in">Приход</option><option value="out">Уход</option></select></div>
+ <div class="mb-3"><label class="form-label">Причина</label><input name="reason" class="form-control" required placeholder="например: сбой камеры, служебная записка № …"></div>
+ <button class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

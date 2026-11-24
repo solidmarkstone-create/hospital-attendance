@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5"><div class="col-md-4">
+  <div class="card"><div class="card-body">
+    <h5 class="mb-1">Учет посещаемости персонала</h5>
+    <p class="text-muted small">ГАУЗ СО «Арамильская городская больница»</p>
+    <form method="post">{% csrf_token %}
+      {% if form.errors %}<div class="alert alert-danger py-2">Неверное имя пользователя или пароль.</div>{% endif %}
+      <div class="mb-2"><label class="form-label">Имя пользователя</label><input name="username" class="form-control" autofocus required></div>
+      <div class="mb-3"><label class="form-label">Пароль</label><input name="password" type="password" class="form-control" required></div>
+      <button class="btn btn-primary w-100">Войти</button>
+    </form>
+  </div></div>
+</div></div>
+{% endblock %}

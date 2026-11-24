@@ -1,0 +1,73 @@
+{
+ "cpu": "AMD EPYC 7502 32-Core Processor",
+ "cores": 2,
+ "detectors": {
+  "SCRFD-10G (buffalo_l) @640": {
+   "ms": 212.7,
+   "faces": 3,
+   "file_mb": 16.1
+  },
+  "SCRFD-10G (buffalo_l) @320": {
+   "ms": 52.0,
+   "faces": 3,
+   "file_mb": 16.1
+  },
+  "SCRFD-0.5G (buffalo_s) @640": {
+   "ms": 20.7,
+   "faces": 3,
+   "file_mb": 2.4
+  },
+  "SCRFD-0.5G (buffalo_s) @320": {
+   "ms": 7.7,
+   "faces": 3,
+   "file_mb": 2.4
+  },
+  "RetinaFace ResNet-34 @640": {
+   "ms": 495.5,
+   "faces": 3,
+   "file_mb": 84.4
+  },
+  "RetinaFace ResNet-34 @320": {
+   "ms": 120.6,
+   "faces": 3,
+   "file_mb": 84.4
+  },
+  "RetinaFace MobileNetV2 @640": {
+   "ms": 102.4,
+   "faces": 3,
+   "file_mb": 11.9
+  },
+  "RetinaFace MobileNetV2 @320": {
+   "ms": 34.0,
+   "faces": 3,
+   "file_mb": 11.9
+  },
+  "RetinaFace MobileNet-0.25 @640": {
+   "ms": 34.3,
+   "faces": 3,
+   "file_mb": 1.7
+  },
+  "RetinaFace MobileNet-0.25 @320": {
+   "ms": 9.4,
+   "faces": 3,
+   "file_mb": 1.7
+  }
+ },
+ "recognizers": {
+  "ArcFace ResNet-50 (w600k_r50)": {
+   "ms": 123.5,
+   "file_mb": 166.3
+  },
+  "ArcFace MobileFaceNet (w600k_mbf)": {
+   "ms": 20.4,
+   "file_mb": 13.0
+  }
+ },
+ "liveness_ms": 6.2,
+ "align_ms": 0.2,
+ "end_to_end_ms": {
+  "1 кадр": 502.5,
+  "3 кадра": 898.2,
+  "3 кадра, детектор 320": 457.0
+ }
+}

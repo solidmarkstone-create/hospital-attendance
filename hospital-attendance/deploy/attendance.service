@@ -1,0 +1,14 @@
+# Вариант без Docker: служба systemd на сервере больницы (Ubuntu 24.04)
+[Unit]
+Description=Учет посещаемости персонала (gunicorn)
+After=network.target postgresql.service
+
+[Service]
+User=attendance
+WorkingDirectory=/opt/attendance/app
+EnvironmentFile=/opt/attendance/app/.env
+ExecStart=/opt/attendance/venv/bin/gunicorn config.wsgi -b 127.0.0.1:8000 -w 1 --threads 4 --timeout 60
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{{ employee.short_name }}{% endblock %}
+{% block content %}
+<h4>{{ employee.full_name }} <small class="text-muted">таб. № {{ employee.personnel_number }}</small></h4>
+<p>{{ employee.position }}, {{ employee.department }}. <a href="{% url 'employee_edit' employee.pk %}">Изменить карточку</a></p>
+<div class="row g-3">
+ <div class="col-md-5"><div class="card"><div class="card-header">Согласие на обработку биометрических данных</div><div class="card-body">
+  <form method="post">{% csrf_token %}
+   {% for f in consent_form %}<div class="mb-2"><label class="form-label">{{ f.label }}</label>{{ f }}{% for e in f.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>{% endfor %}
+   <button class="btn btn-sm btn-primary">Сохранить</button>
+   <div class="form-text">При отказе или отзыве согласия все эталоны сотрудника удаляются сразу.</div>
+  </form></div></div>
+  <div class="card mt-3"><div class="card-header">Запасная отметка без биометрии</div><div class="card-body">
+   <form method="post" action="{% url 'set_pin' employee.pk %}" class="row g-2">{% csrf_token %}
+    <div class="col-8"><input name="pin" type="password" class="form-control form-control-sm" placeholder="Новый PIN, 4–6 цифр"></div>
+    <div class="col-4"><button class="btn btn-sm btn-outline-primary w-100">Назначить</button></div></form>
+   <div class="form-text">{% if employee.fallback_pin %}PIN назначен.{% else %}PIN не назначен.{% endif %} Отметки по PIN подтверждает руководитель.</div>
+  </div></div>
+ </div>
+ <div class="col-md-7"><div class="card"><div class="card-header d-flex justify-content-between">Эталоны лица
+   {% if employee.biometrics_allowed %}<a class="btn btn-sm btn-primary" href="{% url 'enroll' employee.pk %}">Зарегистрировать эталон</a>{% endif %}</div>
+  <table class="table table-sm mb-0"><thead><tr><th>Создан</th><th>Модель</th><th>Качество</th><th>Кто создал</th><th></th></tr></thead><tbody>
+  {% for t in templates %}<tr><td>{{ t.created_at|date:"d.m.Y H:i" }}</td><td>{{ t.model_name }}</td><td>{{ t.quality|floatformat:2 }}</td><td>{{ t.created_by|default:"" }}</td>
+  <td><form method="post" action="{% url 'template_delete' employee.pk t.pk %}">{% csrf_token %}<button class="btn btn-sm btn-outline-danger" onclick="return confirm('Удалить эталон?')">Удалить</button></form></td></tr>
+  {% empty %}<tr><td colspan="5" class="text-muted">Эталонов нет.</td></tr>{% endfor %}</tbody></table>
+  <div class="card-body small text-muted">В базе хранится только зашифрованный вектор признаков. Фотографии после расчета вектора удаляются.</div></div>
+  <div class="card mt-3"><div class="card-header">Последние отметки</div><table class="table table-sm mb-0"><tbody>
+  {% for e in events %}<tr><td>{{ e.timestamp|date:"d.m.Y H:i" }}</td><td>{{ e.get_direction_display }}</td><td>{{ e.get_method_display }}</td><td>{{ e.get_status_display }}</td></tr>{% endfor %}</tbody></table></div>
+ </div>
+</div>
+{% endblock %}
+{% block scripts %}<script>document.querySelectorAll('.card form input:not([type=hidden]), .card form select').forEach(e=>e.classList.add('form-control','form-control-sm'))</script>{% endblock %}

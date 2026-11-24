@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Сводка{% endblock %}
+{% block content %}
+<h4 class="mb-3">Сводка на {{ today|date:"d.m.Y" }}</h4>
+<div class="row g-3 mb-4">
+  <div class="col-md-2"><div class="stat"><div class="text-muted small">По графику сегодня</div><div class="num">{{ stats.scheduled }}</div></div></div>
+  <div class="col-md-2"><div class="stat"><div class="text-muted small">Пришли</div><div class="num">{{ stats.present }}</div></div></div>
+  <div class="col-md-2"><div class="stat"><div class="text-muted small">Нет отметки прихода</div><div class="num">{{ stats.absent }}</div></div></div>
+  <div class="col-md-2"><div class="stat"><div class="text-muted small">Ждут проверки</div><div class="num"><a href="{% url 'review_queue' %}">{{ stats.pending }}</a></div></div></div>
+  <div class="col-md-2"><div class="stat"><div class="text-muted small">Отметок по лицу</div><div class="num">{{ stats.face_share }} %</div></div></div>
+  <div class="col-md-2"><div class="stat"><div class="text-muted small">Сотрудников / с эталоном</div><div class="num">{{ stats.employees }} / {{ stats.with_template }}</div></div></div>
+</div>
+<div class="card"><div class="card-header">Последние отметки</div>
+<table class="table table-sm mb-0">
+  <thead><tr><th>Время</th><th>Сотрудник</th><th>Подразделение</th><th>Направление</th><th>Способ</th><th>Точка прохода</th><th>Статус</th></tr></thead>
+  <tbody>{% for e in last_events %}
+  <tr><td>{{ e.timestamp|date:"H:i" }}</td><td>{{ e.employee|default:"—" }}</td><td>{{ e.employee.department|default:"" }}</td>
+  <td>{{ e.get_direction_display }}</td><td>{{ e.get_method_display }}</td><td>{{ e.point|default:"—" }}</td><td>{{ e.get_status_display }}</td></tr>
+  {% empty %}<tr><td colspan="7" class="text-muted">Сегодня отметок еще нет.</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endblock %}
