@@ -2,9 +2,9 @@
 # Демо-запуск (GitHub Codespaces, ноутбук, Hugging Face): база SQLite создается заново с тестовыми данными.
 set -e
 cd "$(dirname "$0")/.."
-export DJANGO_HTTPS=${DJANGO_HTTPS:-1} DJANGO_DEBUG=0
+export DJANGO_HTTPS=${DJANGO_HTTPS:-0} DJANGO_DEBUG=0
 export DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-.app.github.dev,.hf.space,localhost,127.0.0.1}
-export DJANGO_CSRF_TRUSTED=${DJANGO_CSRF_TRUSTED:-https://*.app.github.dev,https://*.hf.space}
+export DJANGO_CSRF_TRUSTED=${DJANGO_CSRF_TRUSTED:-http://localhost:8000,http://localhost:8000,https://*.app.github.dev,https://*.hf.space}
 [ -n "$DJANGO_SECRET_KEY" ] || export DJANGO_SECRET_KEY=$(python -c "import secrets;print(secrets.token_urlsafe(50))")
 [ -n "$BIOMETRIC_KEY" ] || export BIOMETRIC_KEY=$(python -c "from cryptography.fernet import Fernet;print(Fernet.generate_key().decode())")
 rm -f db.sqlite3
